@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>שוק האספנות - פריטי אספנות למכירה</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --primary-dark: #2980b9;
+            --secondary-color: #f39c12;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --white: #ffffff;
+            --border-radius: 12px;
+            --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Rubik', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            direction: rtl;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .search-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-bar {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+        
+        .search-bar:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+        }
+        
+        .categories {
+            display: flex;
+            overflow-x: auto;
+            gap: 0.8rem;
+            margin: 1.5rem 0;
+            padding-bottom: 0.5rem;
+            scrollbar-width: thin;
+        }
+        
+        .categories::-webkit-scrollbar {
+            height: 4px;
+        }
+        
+        .categories::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+        
+        .category {
+            background-color: var(--white);
+            padding: 0.7rem 1.2rem;
+            border-radius: 50px;
+            white-space: nowrap;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .category:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category.active {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .item-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .item-category-tag {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--secondary-color);
+            color: var(--white);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 1;
+        }
+        
+        .item-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .item-card:hover .item-image {
+            transform: scale(1.05);
+        }
+        
+        .item-details {
+            padding: 1.5rem;
+        }
+        
+        .item-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+        
+        .item-price {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .item-description {
+            color: #666;
+            margin: 0.8rem 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .contact-info {
+            display: flex;
+            align-items: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #555;
+        }
+        
+        .contact-info i {
+            margin-left: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .item-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.2rem;
+            border-top: 1px solid #eee;
+            padding-top: 1.2rem;
+        }
+        
+        .contact-button {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+        
+        .contact-button i {
+            margin-left: 0.5rem;
+        }
+        
+        .contact-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .delete-button {
+            color: #e74c3c;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 0.7rem 1rem;
+            border-radius: 50px;
+            transition: var(--transition);
+        }
+        
+        .delete-button:hover {
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+        
+        .add-item-button {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            z-index: 100;
+        }
+        
+        .add-item-button:hover {
+            transform: scale(1.05) rotate(90deg);
+            background-color: var(--primary-dark);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 550px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .close-button {
+            position: absolute;
+            left: 1.5rem;
+            top: 1.5rem;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #999;
+            transition: var(--transition);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .close-button:hover {
+            color: #555;
+            background-color: #f1f1f1;
+        }
+        
+        .modal h2 {
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+            font-size: 0.95rem;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        button[type="submit"] {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            width: 100%;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+        
+        button[type="submit"]:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .no-items-message {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            grid-column: 1 / -1;
+        }
+        
+        @media (max-width: 768px) {
+            .items-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .items-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                padding: 1.5rem;
+            }
+            
+            .close-button {
+                left: 1rem;
+                top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>שוק האספנות</h1>
+        <p>המקום לקנות ולמכור פריטי אספנות ייחודיים יד שנייה</p>
+    </header>
+    
+    <div class="container">
+        <div class="search-container">
+            <input type="text" class="search-bar" id="searchBar" placeholder="חפש פריטי אספנות...">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+        
+        <div class="categories" id="categoriesContainer">
+            <div class="category active" data-category="all">
+                <i class="fas fa-th"></i> הכל
+            </div>
+            <div class="category" data-category="coins">
+                <i class="fas fa-coins"></i> מטבעות
+            </div>
+            <div class="category" data-category="bills">
+                <i class="fas fa-money-bill-wave"></i> שטרות
+            </div>
+            <div class="category" data-category="knives">
+                <i class="fas fa-utensils"></i> סכינים
+            </div>
+            <div class="category" data-category="stamps">
+                <i class="fas fa-stamp"></i> בולים
+            </div>
+            <div class="category" data-category="antiques">
+                <i class="fas fa-landmark"></i> עתיקות
+            </div>
+            <div class="category" data-category="other">
+                <i class="fas fa-star"></i> אחר
+            </div>
+        </div>
+        
+        <div class="items-grid" id="itemsGrid">
+            <!-- Items will be added dynamically with JavaScript -->
+        </div>
+    </div>
+    
+    <div class="add-item-button" id="addItemButton">
+        <i class="fas fa-plus"></i>
+    </div>
+    
+    <div class="modal" id="addItemModal">
+        <div class="modal-content">
+            <span class="close-button" id="closeModalButton">
+                <i class="fas fa-times"></i>
+            </span>
+            <h2><i class="fas fa-plus-circle"></i> הוספת פריט חדש למכירה</h2>
+            <form id="addItemForm">
+                <div class="form-group">
+                    <label for="itemTitle"><i class="fas fa-tag"></i> שם הפריט</label>
+                    <input type="text" id="itemTitle" placeholder="לדוגמה: מטבע נדיר משנת 1950" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="itemCategory"><i class="fas fa-folder"></i> קטגוריה</label>
+                    <select id="itemCategory" required>
+                        <option value="coins">מטבעות</option>
+                        <option value="bills">שטרות</option>
+                        <option value="knives">סכינים</option>
+                        <option value="stamps">בולים</option>
+                        <option value="antiques">עתיקות</option>
+                        <option value="other">אחר</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="itemPrice"><i class="fas fa-shekel-sign"></i> מחיר (₪)</label>
+                    <input type="number" id="itemPrice" placeholder="הזן מחיר ללא סימון שקל" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="itemDescription"><i class="fas fa-align-left"></i> תיאור הפריט</label>
+                    <textarea id="itemDescription" rows="4" placeholder="תאר את הפריט בפירוט, כולל מצב, גיל ומידע נוסף רלוונטי" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="itemPhone"><i class="fas fa-phone-alt"></i> מספר טלפון ליצירת קשר</label>
+                    <input type="tel" id="itemPhone" placeholder="05X-XXXXXXX" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="itemImage"><i class="fas fa-image"></i> תמונת הפריט (URL)</label>
+                    <input type="text" id="itemImage" placeholder="הזן קישור לתמונה" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="itemPassword"><i class="fas fa-lock"></i> סיסמה למחיקת הפריט</label>
+                    <input type="password" id="itemPassword" placeholder="הגדר סיסמה פשוטה שתזכור" required>
+                </div>
+                
+                <button type="submit"><i class="fas fa-paper-plane"></i> פרסם פריט</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="modal" id="deleteItemModal">
+        <div class="modal-content">
+            <span class="close-button" id="closeDeleteModalButton">
+                <i class="fas fa-times"></i>
+            </span>
+            <h2><i class="fas fa-trash-alt"></i> מחיקת פריט</h2>
+            <p>הזן את הסיסמה שהגדרת בעת יצירת הפריט כדי למחוק אותו.</p>
+            <div class="form-group">
+                <label for="deletePassword"><i class="fas fa-lock"></i> סיסמה</label>
+                <input type="password" id="deletePassword" placeholder="הזן סיסמה" required>
+            </div>
+            <button id="confirmDeleteButton" type="button"><i class="fas fa-check"></i> מחק פריט</button>
+        </div>
+    </div>
+    
+    <script>
+        // Store items in localStorage
+        let items = JSON.parse(localStorage.getItem('collectiblesItems')) || [];
+        
+        // DOM elements
+        const itemsGrid = document.getElementById('itemsGrid');
+        const addItemButton = document.getElementById('addItemButton');
+        const addItemModal = document.getElementById('addItemModal');
+        const closeModalButton = document.getElementById('closeModalButton');
+        const addItemForm = document.getElementById('addItemForm');
+        const searchBar = document.getElementById('searchBar');
+        const categoriesContainer = document.getElementById('categoriesContainer');
+        const deleteItemModal = document.getElementById('deleteItemModal');
+        const closeDeleteModalButton = document.getElementById('closeDeleteModalButton');
+        const deletePassword = document.getElementById('deletePassword');
+        const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+        
+        let currentCategory = 'all';
+        let itemToDelete = null;
+        
+        // Map category IDs to Hebrew names for display
+        const categoryNames = {
+            'coins': 'מטבעות',
+            'bills': 'שטרות',
+            'knives': 'סכינים',
+            'stamps': 'בולים',
+            'antiques': 'עתיקות',
+            'other': 'אחר'
+        };
+        
+        // Display all items
+        function displayItems() {
+            itemsGrid.innerHTML = ''; // Clear existing items
+            
+            const searchTerm = searchBar.value.trim().toLowerCase();
+            
+            const filteredItems = items.filter(item => {
+                const matchesSearch = 
+                    item.title.toLowerCase().includes(searchTerm) || 
+                    item.description.toLowerCase().includes(searchTerm);
+                    
+                const matchesCategory = currentCategory === 'all' || item.category === currentCategory;
+                
+                return matchesSearch && matchesCategory;
+            });
+            
+            if (filteredItems.length === 0) {
+                itemsGrid.innerHTML = `
+                    <div class="no-items-message">
+                        <i class="fas fa-search" style="font-size: 2rem; color: #ddd; margin-bottom: 1rem;"></i>
+                        <p>לא נמצאו פריטים מתאימים.</p>
+                        <p style="font-size: 0.9rem; color: #999; margin-top: 0.5rem;">נסה לחפש מונח אחר או לשנות קטגוריה</p>
+                    </div>`;
+                return;
+            }
+            
+            filteredItems.forEach(item => {
+                const itemCard = document.createElement('div');
+                itemCard.className = 'item-card';
+                
+                // Get the Hebrew category name
+                const categoryDisplay = categoryNames[item.category] || item.category;
+                
+                itemCard.innerHTML = `
+                    <div class="item-category-tag">${categoryDisplay}</div>
+                    <img src="${item.image}" alt="${item.title}" class="item-image">
+                    <div class="item-details">
+                        <div class="item-title">${item.title}</div>
+                        <div class="item-price">₪${item.price}</div>
+                        <div class="item-description">${item.description}</div>
+                        <div class="contact-info">
+                            <i class="fas fa-phone-alt"></i>
+                            ${item.phone}
+                        </div>
+                        <div class="item-actions">
+                            <button class="contact-button">
+                                <i class="fas fa-phone"></i>
+                                צור קשר
+                            </button>
+                            <button class="delete-button" data-id="${item.id}">
+                                <i class="fas fa-trash-alt"></i>
+                                מחק
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                // Add contact button event
+                const contactButton = itemCard.querySelector('.contact-button');
+                contactButton.addEventListener('click', () => {
+                    window.location.href = `tel:${item.phone}`;
+                });
+                
+                // Add delete button event
+                const deleteButton = itemCard.querySelector('.delete-button');
+                deleteButton.addEventListener('click', () => {
+                    itemToDelete = item.id;
+                    deleteItemModal.style.display = 'flex';
+                });
+                
+                itemsGrid.appendChild(itemCard);
+            });
+        }
+        
+        // Add new item
+        addItemForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newItem = {
+                id: Date.now().toString(), // Unique ID based on timestamp
+                title: document.getElementById('itemTitle').value,
+                category: document.getElementById('itemCategory').value,
+                price: document.getElementById('itemPrice').value,
+                description: document.getElementById('itemDescription').value,
+                phone: document.getElementById('itemPhone').value,
+                image: document.getElementById('itemImage').value,
+                password: document.getElementById('itemPassword').value
+            };
+            
+            items.push(newItem);
+            localStorage.setItem('collectiblesItems', JSON.stringify(items));
+            
+            addItemForm.reset();
+            addItemModal.style.display = 'none';
+            
+            displayItems();
+            
+            // Show success notification (optional)
+            alert('הפריט נוסף בהצלחה!');
+        });
+        
+        // Delete item confirmation
+        confirmDeleteButton.addEventListener('click', function() {
+            const enteredPassword = deletePassword.value;
+            
+            const itemIndex = items.findIndex(item => item.id === itemToDelete);
+            if (itemIndex !== -1) {
+                if (items[itemIndex].password === enteredPassword) {
+                    items.splice(itemIndex, 1);
+                    localStorage.setItem('collectiblesItems', JSON.stringify(items));
+                    deleteItemModal.style.display = 'none';
+                    deletePassword.value = '';
+                    displayItems();
+                    alert('הפריט נמחק בהצלחה!');
+                } else {
+                    alert('סיסמה שגויה!');
+                }
+            }
+        });
+        
+        // Show/hide add item modal
+        addItemButton.addEventListener('click', () => {
+            addItemModal.style.display = 'flex';
+        });
+        
+        closeModalButton.addEventListener('click', () => {
+            addItemModal.style.display = 'none';
+        });
+        
+        closeDeleteModalButton.addEventListener('click', () => {
+            deleteItemModal.style.display = 'none';
+            deletePassword.value = '';
+        });
+        
+        // Close modal when clicking outside the content
+        window.addEventListener('click', (event) => {
+            if (event.target === addItemModal) {
+                addItemModal.style.display = 'none';
+            }
+            if (event.target === deleteItemModal) {
+                deleteItemModal.style.display = 'none';
+                deletePassword.value = '';
+            }
+        });
+        
+        // Filter by category
+        categoriesContainer.addEventListener('click', (event) => {
+            const categoryElement = event.target.closest('.category');
+            if (categoryElement) {
+                const categoryButtons = document.querySelectorAll('.category');
+                categoryButtons.forEach(button => button.classList.remove('active'));
+                
+                categoryElement.classList.add('active');
+                currentCategory = categoryElement.dataset.category;
+                displayItems();
+            }
+        });
+        
+        // Search functionality
+        searchBar.addEventListener('input', displayItems);
+        
+        // Initial display
+        display
